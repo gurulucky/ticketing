@@ -57,7 +57,7 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
       </Stack>
 
       <TextField
-        placeholder="artist, Event or Venue"
+        placeholder="Artist, Event or Venue"
         variant="outlined"
         InputProps={{
           endAdornment: (

@@ -2,7 +2,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Typography, CardActionArea, CardContent, Card, CardMedia, Container, Grid } from '@mui/material'
 
-const EventCarousel = (props) => {
+const EventCarousel = ({ caption, events }) => {
 
     var items = [
         {
@@ -48,7 +48,7 @@ const EventCarousel = (props) => {
 
     return (
         <Container sx={{ borderBottom: '1px solid green', paddingBottom: '10px' }}>
-            <Typography variant='h4' color='primary' sx={{ mt: "20px" }}>{props.caption}</Typography>
+            <Typography variant='h5' color='white' sx={{backgroundColor:'#17a2b8', my:"10px", p:"5px"}}>{caption}</Typography>
             {/* <Carousel
                 ssr
                 partialVisbile
@@ -58,7 +58,7 @@ const EventCarousel = (props) => {
             > */}
             <Grid container>
                 {
-                    items.map((item, i) => <Item key={i} item={item} />)
+                    events.map((item, i) => <Item key={i} item={item} />)
                 }
             </Grid>
             {/* </Carousel> */}
@@ -73,16 +73,16 @@ const Item = ({ item }) => {
                 <CardActionArea>
                     <CardMedia
                         component="img"
-                        height="300"
-                        image={item.background}
+                        height="280"
+                        image={item.image || '/empty.png'}
                         alt="green iguana"
                     />
                     <CardContent>
-                        <Typography gutterBottom variant="h6" component="div">
-                            {item.name}
+                        <Typography gutterBottom variant="body1" component="div">
+                            {`${item.name.slice(0, 20)}...`}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {item.description}
+                        {`${item.description.slice(0, 20)}...`}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
