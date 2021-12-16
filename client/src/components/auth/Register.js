@@ -4,17 +4,19 @@ import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
-import { Container } from '@mui/material';
+import { Container, TextField, Stack, Button } from '@mui/material';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
+    phone: '',
     password: '',
     password2: ''
   });
 
-  const { name, email, password, password2 } = formData;
+  const { firstName, lastName, email, phone, password, password2 } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,7 +26,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
-      register({ name, email, password });
+      register({ firstName, lastName, email, phone, password });
     }
   };
 
@@ -33,54 +35,65 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   }
 
   return (
-    <Container sx={{minHeight: window.innerHeight*0.6 + 'px' }}>
+    <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
       <h1 className="large text-primary">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user" /> Create Your Account
       </p>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Name"
-            name="name"
-            value={name}
+      {/* <form className="form" onSubmit={onSubmit}> */}
+      <Stack direction='column' spacing={2}>
+        <Stack direction="row" spacing={1}>
+          <TextField
+            type='text'
+            label="First Name"
+            name="firstName"
+            value={firstName}
             onChange={onChange}
+            sx={{ width: "50%" }}
           />
-        </div>
-        <div className="form-group">
-          <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={email}
+          <TextField
+            type='text'
+            label="Last Name"
+            name="lastName"
+            value={lastName}
             onChange={onChange}
+            sx={{ width: "50%" }}
           />
-          <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={onChange}
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="password2"
-            value={password2}
-            onChange={onChange}
-          />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Register" />
-      </form>
+        </Stack>
+        <TextField
+          type="email"
+          label="Email Address"
+          name="email"
+          value={email}
+          onChange={onChange}
+          sx={{ width: "100%" }}
+        />
+        <TextField
+          type="number"
+          label="Phone number"
+          name="phone"
+          value={phone}
+          onChange={onChange}
+          sx={{ width: "100%" }}
+        />
+        <TextField
+          type="password"
+          label="Password"
+          name="password"
+          value={password}
+          onChange={onChange}
+        />
+        <TextField
+          type="password"
+          label="Confirm Password"
+          name="password2"
+          value={password2}
+          onChange={onChange}
+        />
+        {/* <input type="submit" className="btn btn-primary" value="Register" /> */}
+        <Button variant='contained' color='primary' onClick={onSubmit}>Register</Button>
+        {/* </form> */}
+      </Stack>
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>
       </p>

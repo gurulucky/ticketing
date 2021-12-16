@@ -19,7 +19,7 @@ router.get('/home', async (req, res) => {
                 homeEvents.push({ category: categories[i].name, events: [] });
             }
         }
-        console.log(homeEvents);
+        // console.log(homeEvents);
         return res.json(homeEvents);
     } catch (err) {
         console.log(err.message);

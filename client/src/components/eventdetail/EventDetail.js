@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Typography } from '@mui/material';
 import EventItem from '../events/EventItem';
 import Tickets from './Tickets';
+import Detail from './Detail';
 import { getEvent } from '../../actions/event';
 
 
@@ -19,6 +20,7 @@ const EventDetail = ({ match }) => {
                 <EventItem event={event} showButton={false} />
             }
             <Tickets />
+            <Detail event={event} />
         </Container>
     )
 }

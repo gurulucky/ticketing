@@ -14,7 +14,8 @@ const User = require('../../models/User');
 // @access   Public
 router.post(
   '/',
-  check('name', 'Name is required').notEmpty(),
+  check('firstName', 'First Name is required').notEmpty(),
+  check('lastName', 'Last Name is required').notEmpty(),
   check('email', 'Please include a valid email').isEmail(),
   check(
     'password',
@@ -26,7 +27,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, phone, password } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -37,19 +38,20 @@ router.post(
           .json({ errors: [{ msg: 'User already exists' }] });
       }
 
-      const avatar = normalize(
-        gravatar.url(email, {
-          s: '200',
-          r: 'pg',
-          d: 'mm'
-        }),
-        { forceHttps: true }
-      );
+      // const avatar = normalize(
+      //   gravatar.url(email, {
+      //     s: '200',
+      //     r: 'pg',
+      //     d: 'mm'
+      //   }),
+      //   { forceHttps: true }
+      // );
 
       user = new User({
-        name,
+        firstName,
+        lastName,
+        phone,
         email,
-        avatar,
         password
       });
 

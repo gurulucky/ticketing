@@ -23,11 +23,11 @@ const EventItem = ({ event, showButton = true }) => {
                         </Typography>
                 }
                 <Stack direction='row' alignItems="center">
-                    <AccessTimeIcon color='primary' />
+                    <AccessTimeIcon color='primary' fontSize='small'/>
                     <Typography variant='body1' alignItems='center'>
                         {formatDateTime(event.start)}&nbsp;&nbsp;|&nbsp;&nbsp;
                     </Typography>
-                    <HomeIcon color='primary' />
+                    <HomeIcon color='primary' fontSize='small'/>
                     <a href="#">
                         <Typography variant='body1' fontWeight="bold">
                             {

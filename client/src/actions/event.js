@@ -3,7 +3,6 @@ import {
     GET_HOME_EVENTS,
     GET_EVENTS,
     GET_EVENT,
-
 } from './types';
 
 export const getHomeEvents = () => async dispatch => {
@@ -34,7 +33,7 @@ export const getEvents = (searchData) => async dispatch => {
 
 export const getEvent = (id) => async dispatch => {
     try {
-        const res = await api.get('/events',{params:{id}});
+        const res = await api.get('/events', { params: { id } });
         console.log(res.data);
         dispatch({
             type: GET_EVENT,

@@ -26,12 +26,20 @@ const Login = ({ login, isAuthenticated }) => {
   }
 
   return (
-    <Container sx={{minHeight: window.innerHeight*0.6 + 'px' }}>
+    <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
       <h1 className="large text-primary">Sign Up</h1>
-      
+
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
-          <input
+          {/* <input
+            type="email"
+            placeholder="Email Address"
+            name="email"
+            value={email}
+            onChange={onChange}
+            required
+          /> */}
+          <TextField
             type="email"
             placeholder="Email Address"
             name="email"

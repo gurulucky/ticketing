@@ -4,11 +4,13 @@ import auth from './auth';
 import profile from './profile';
 import post from './post';
 import event from './event';
+import ticket from './ticket';
 
 export default combineReducers({
   alert,
   auth,
   profile,
   post,
-  event
+  event,
+  ticket
 });
