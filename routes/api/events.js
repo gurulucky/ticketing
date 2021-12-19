@@ -42,7 +42,7 @@ router.get('/search', async (req, res) => {
         // console.log(categories);
         if(categories){
 
-            if (categories?.length) {
+            if (categories.length) {
                 match["category"] = { $in: categories }
             }
         }
