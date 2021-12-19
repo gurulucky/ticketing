@@ -22,7 +22,7 @@ const MyOrder = ({tickets, orders, curEvent}) => {
                 MY ORDER
             </Typography>
             <Stack direction="row" spacing={1} sx={{ mb: '10px' }}>
-                <Box component='img' src={curEvent?.image || './empty.png'} width='100px' height='auto' />
+                <Box component='img' src={curEvent?.image || './image/empty.png'} width='100px' height='auto' />
                 <Stack direction='column'>
                     <Typography variant='body1' fontWeight='bold'>
                         {curEvent?.name}
