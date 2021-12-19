@@ -16,7 +16,7 @@ router.post("/create-payment-intent", async (req, res) => {
     try {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Number(process.env.STRIPE_USD || 'usd'),//cent or pense
-            currency: process.env.STRIPE_CURRENCY || 300
+            currency: process.env.STRIPE_CURRENCY || '300'
         });
 
         res.json({
