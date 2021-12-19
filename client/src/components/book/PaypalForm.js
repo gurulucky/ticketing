@@ -1,7 +1,7 @@
 import React from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const PaypalForm = () => {
+const PaypalForm = ({onSucceed}) => {
     const PAYMENT_CURRENCY = "USD";
     const amount = {
         currency_code: PAYMENT_CURRENCY,
@@ -86,6 +86,7 @@ const PaypalForm = () => {
     }
     function onApprove(data, actions) {
         console.log("data", data);
+        onSucceed(data);
         // return actions.order.authorize().then((details) => {
         //   console.log(details);
         //   console.log(details.purchase_units[0].payments.authorizations[0].id);

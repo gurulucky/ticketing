@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CoinbaseCommerceButton from 'react-coinbase-commerce';
 
-const CoinbaseForm = () => {
+const CoinbaseForm = ({onSucceed}) => {
     const [coinbaseId, setCoinbaseId] = useState('');
     useEffect(() => {
         // Create coinbase checkout with api
@@ -37,7 +37,7 @@ const CoinbaseForm = () => {
         <CoinbaseCommerceButton
             checkoutId={coinbaseId}
             styled={true}
-            onChargeSuccess={() => alert("success")}
+            onChargeSuccess={onSucceed}
             onChargeFailure={() => console.log("Failure")} />
     )
 }

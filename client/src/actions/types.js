@@ -28,4 +28,4 @@ export const GET_HOME_EVENTS = 'GET_HOME_EVENTS';
 export const GET_EVENTS = 'GET_EVENTS';
 export const GET_EVENT = 'GET_EVENT';
 export const GET_TICKETS = 'GET_TICKETS';
-export const SET_ORDERS = 'SET_ORDERS';
+export const SEND_ORDERS = 'SEND_ORDERS';

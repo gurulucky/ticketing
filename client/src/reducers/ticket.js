@@ -1,6 +1,5 @@
 import {
     GET_TICKETS,
-    SET_ORDERS
 } from '../actions/types';
 
 const initialState = {
@@ -16,11 +15,6 @@ function ticketReducer(state = initialState, action) {
             return {
                 ...state,
                 tickets: payload
-            };
-        case SET_ORDERS:
-            return {
-                ...state,
-                orders: payload
             };
         default:
             return state;

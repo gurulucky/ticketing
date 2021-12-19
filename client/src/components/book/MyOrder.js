@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Stack, Typography, Divider } from '@mui/material';
 import { Box, styled } from '@mui/system';
 import { formatDateTime } from '../../utils/formatDate';
+import { setOrders } from '../../actions/ticket';
 
-const MyOrder = ({tickets, orders, curEvent}) => {
-    
+
+const MyOrder = ({ tickets, orders, curEvent }) => {
+    const dispatch = useDispatch();
     const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
@@ -14,7 +17,8 @@ const MyOrder = ({tickets, orders, curEvent}) => {
             total += price * order[1];
         });
         setTotalPrice(total);
-    }, [orders])
+        // console.log('order', orders);
+    }, [orders?.length, tickets?.length])
 
     return (
         <Stack direction="column" sx={{ width: '40%' }}>
@@ -22,7 +26,7 @@ const MyOrder = ({tickets, orders, curEvent}) => {
                 MY ORDER
             </Typography>
             <Stack direction="row" spacing={1} sx={{ mb: '10px' }}>
-                <Box component='img' src={curEvent?.image || './image/empty.png'} width='100px' height='auto' />
+                <Box component='img' src={curEvent?.image || '/empty.png'} width='100px' height='auto' />
                 <Stack direction='column'>
                     <Typography variant='body1' fontWeight='bold'>
                         {curEvent?.name}
@@ -63,10 +67,10 @@ const Ticket = ({ ticket, quantity }) => {
     return (
         <Stack direction='row' justifyContent='space-between' sx={{ py: '10px' }}>
             <Typography variant='body1'>
-                {`${quantity} x ${ticket.name}`}
+                {`${quantity} x ${ticket?.name}`}
             </Typography>
             <Typography variant='body1'>
-                {`$${ticket.price * quantity}`}
+                {`$${ticket?.price * quantity}`}
             </Typography>
         </Stack>
     )

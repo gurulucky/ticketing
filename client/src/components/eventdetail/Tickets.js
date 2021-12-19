@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Typography, Stack, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 import { NotificationManager } from 'react-notifications';
-import { getTickets, setOrders } from '../../actions/ticket';
+import { getTickets } from '../../actions/ticket';
 import { formatDateTime } from '../../utils/formatDate';
 
 var orders = [];
@@ -43,9 +43,10 @@ const Tickets = () => {
 
     const buy = () => {
         orders = orders.filter(order => order[1] > 0);
-        dispatch(setOrders(orders))
+        // dispatch(setOrders(orders))
+        window.localStorage.setItem('orders', JSON.stringify(orders));
         if (orders.length > 0) {
-            history.push('/book');
+            history.push(`/book/${curEvent._id}`);
         } else {
             NotificationManager.error('Select tickets');
         }

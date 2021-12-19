@@ -78,6 +78,7 @@ const StripeForm = (props) => {
             setError(`Payment failed ${payload.error.message}`);
             setProcessing(false);
         } else {
+            console.log('stripe success');
             setError(null);
             setProcessing(false);
             setSucceeded(true);
@@ -112,7 +113,7 @@ const StripeForm = (props) => {
                 )}
                 {/* Show a success message upon completion */}
                 <p className={succeeded ? "result-message" : "result-message hidden"}>
-                    Payment succeeded. You can mint NFT now.
+                    Payment succeeded.
                     {/* <a
                         href={`https://dashboard.stripe.com/test/payments`}
                     >
