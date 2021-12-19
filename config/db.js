@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 // const config = require('config');
 // const db = config.get('mongoURI');
-const db = "mongodb://localhost:27017/ticketing";
+require('dotenv').config();
+const db = process.env.MONGO_URL;
 
 const connectDB = async () => {
 	try {
@@ -12,7 +13,7 @@ const connectDB = async () => {
 			useUnifiedTopology: true
 		});
 
-		console.log('MongoDB Connected...');
+		console.log('MongoDB Connected...',db);
 	} catch (err) {
 		console.error(err.message);
 		// Exit process with failure
