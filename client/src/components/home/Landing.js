@@ -14,10 +14,11 @@ const Landing = () => {
 
   useEffect(() => {
     dispatch(getHomeEvents());
+    console.log(homeEvents);
     let events = homeEvents.map(events => events.events[0]);
     setSliderEvents(events.filter(event => event));
     console.log(events.filter(event => event));
-  }, [])
+  }, [homeEvents.length])
 
   return (
     <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
