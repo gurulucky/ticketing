@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Typography, Stack, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
+import { NotificationManager } from 'react-notifications';
 import { getTickets, setOrders } from '../../actions/ticket';
 import { formatDateTime } from '../../utils/formatDate';
 
@@ -26,6 +27,7 @@ const Tickets = () => {
         } else {
             orders[index][1] = quantity;
         }
+        orders = orders.filter(order => order[1] > 0);
         console.log(orders);
         calcTotalPrice(orders);
     }
@@ -40,8 +42,13 @@ const Tickets = () => {
     }
 
     const buy = () => {
+        orders = orders.filter(order => order[1] > 0);
         dispatch(setOrders(orders))
-        history.push('/book');
+        if (orders.length > 0) {
+            history.push('/book');
+        } else {
+            NotificationManager.error('Select tickets');
+        }
     }
 
     return (

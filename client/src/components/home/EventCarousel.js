@@ -1,6 +1,7 @@
+import {Link} from 'react-router-dom';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Typography, CardActionArea, CardContent, Card, CardMedia, Container, Grid } from '@mui/material'
+import { Typography, CardActionArea, CardContent, Card, CardMedia, Container, Grid, ButtonBase } from '@mui/material'
 
 const EventCarousel = ({ caption, events }) => {
 
@@ -48,7 +49,7 @@ const EventCarousel = ({ caption, events }) => {
 
     return (
         <Container sx={{ borderBottom: '1px solid green', paddingBottom: '10px' }}>
-            <Typography variant='h5' color='white' sx={{backgroundColor:'#17a2b8', my:"10px", p:"5px"}}>{caption}</Typography>
+            <Typography variant='h5' color='white' sx={{ backgroundColor: '#17a2b8', my: "10px", p: "5px" }}>{caption}</Typography>
             {/* <Carousel
                 ssr
                 partialVisbile
@@ -68,9 +69,9 @@ const EventCarousel = ({ caption, events }) => {
 const Item = ({ item }) => {
     return (
         <Grid item md={3}>
-
             <Card sx={{ width: "90%", height: "380px", m: "10" }}>
-                <CardActionArea>
+                {/* <CardActionArea> */}
+                <ButtonBase component={Link} to={`/event/detail/${item._id}`} sx={{display:'block', textAlign:'initial'}}>
                     <CardMedia
                         component="img"
                         height="280"
@@ -82,10 +83,11 @@ const Item = ({ item }) => {
                             {`${item.name.slice(0, 20)}...`}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                        {`${item.description.slice(0, 20)}...`}
+                            {`${item.description.slice(0, 20)}...`}
                         </Typography>
                     </CardContent>
-                </CardActionArea>
+                    {/* </CardActionArea> */}
+                </ButtonBase>
             </Card>
         </Grid>
     )

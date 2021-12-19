@@ -1,11 +1,12 @@
-import React, { Fragment, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
-import { FormControl, TextField, Typography, Button, Container } from '@mui/material';
+import { FormControl, Stack, TextField, Typography, Button, Container } from '@mui/material';
 
 const Login = ({ login, isAuthenticated }) => {
+  const history = useHistory();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -21,49 +22,42 @@ const Login = ({ login, isAuthenticated }) => {
     login(email, password);
   };
 
-  if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
-  }
+  useEffect(() => {
+    if(isAuthenticated){
+      history.goBack();
+    }
+  },[isAuthenticated])
+  // if (isAuthenticated) {
+  //   return <Redirect to="/dashboard" />;
+  // }
 
   return (
     <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
-      <h1 className="large text-primary">Sign Up</h1>
+      <h1 className="large text-primary">Sign In</h1>
 
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
-          {/* <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={email}
-            onChange={onChange}
-            required
-          /> */}
-          <TextField
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={email}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={onChange}
-            minLength="6"
-          />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Login" />
-      </form>
+      <Stack direction='column' spacing={2}>
+        <TextField
+          type="email"
+          label="Email Address"
+          name="email"
+          value={email}
+          onChange={onChange}
+          required
+        />
+        <TextField
+          type="password"
+          label="Password"
+          name="password"
+          value={password}
+          onChange={onChange}
+          minLength="6"
+        />
+        <Button variant='contained' color='primary' onClick={onSubmit}>Sign In</Button>
+      </Stack>
       <Typography variant='body2'>
         Don't have an account? <Link to="/register">Sign Up</Link>
       </Typography>
-    </Container>
+    </Container >
   );
 };
 

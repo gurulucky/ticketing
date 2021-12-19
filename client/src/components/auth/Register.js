@@ -1,12 +1,13 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect} from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
 import { Container, TextField, Stack, Button } from '@mui/material';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
+  const history = useHistory();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -30,9 +31,14 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     }
   };
 
-  if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
-  }
+  // if (isAuthenticated) {
+  //   return <Redirect to="/dashboard" />;
+  // }
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.goBack();
+    }
+  },[isAuthenticated])
 
   return (
     <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>

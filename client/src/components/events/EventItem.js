@@ -47,7 +47,7 @@ const EventItem = ({ event, showButton = true }) => {
                 </Typography>
                 {
                     showButton &&
-                    <Button variant='contained' color='primary' sx={{ width: "200px" }}>GET TICKETS</Button>
+                    <Button component={Link} to={`/event/detail/${event._id}`} variant='contained' color='primary' sx={{ width: "200px" }}>GET TICKETS</Button>
                 }
             </Stack>
         </Stack>

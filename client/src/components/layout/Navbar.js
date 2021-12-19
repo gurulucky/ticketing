@@ -3,8 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
-import { Stack, Typography, TextField, InputAdornment, IconButton } from '@mui/material';
-import { Search } from '@mui/icons-material';
+import { Stack, Typography, TextField, InputAdornment, IconButton, Paper, InputBase } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import { NavMenuItem } from '../styled/StyledInput';
 
 const Navbar = ({ auth: { isAuthenticated }, logout }) => {
@@ -41,7 +41,7 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
     <Stack direction="column" alignItems='center'>
       <Stack direction='row' justifyContent="space-between" alignItems='center'
         sx={{
-          width:"100%",
+          width: "100%",
           height: "80px",
           backgroundColor: "#17a2b8",
           margin: "0px",
@@ -53,24 +53,23 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
             Ticketing
           </Typography>
         </Link>
+        <Paper
+          component="form"
+          sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+        >
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Artist, Event or Venue"
+            inputProps={{ 'aria-label': 'search google maps' }}
+          />
+          <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Paper>
         <Fragment>{Links}</Fragment>
       </Stack>
 
-      <TextField
-        placeholder="Artist, Event or Venue"
-        variant="outlined"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment>
-              <IconButton>
-                <Search />
-              </IconButton>
-            </InputAdornment>
-          )
-        }}
-        sx={{ width: "50%", pt:"5px" }}
-      />
-    </Stack>
+    </Stack >
   );
 };
 

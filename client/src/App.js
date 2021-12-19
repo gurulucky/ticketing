@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { NotificationContainer } from 'react-notifications';
 
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -13,6 +14,7 @@ import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
 import './App.css'
+import 'react-notifications/lib/notifications.css'
 
 const theme = createTheme({
   palette: {
@@ -62,6 +64,7 @@ const App = () => {
               <Route component={Routes} />
             </Switch>
             <Footer />
+            <NotificationContainer />
           </ThemeProvider>
         </Fragment>
       </Router>

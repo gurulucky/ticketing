@@ -1,35 +1,13 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Carousel from 'react-material-ui-carousel'
-import { Typography, CardActionArea, CardContent, Card, CardMedia } from '@mui/material'
+import { Typography, CardActionArea, CardContent, Card, CardMedia, ButtonBase } from '@mui/material'
 
-const Slider = (props) => {
-    var items = [
-        {
-            name: "Random Name #1",
-            description: "Probably the most random thing you have ever seen!",
-            background: "./image/01.jpg"
-        },
-        {
-            name: "Random Name #2",
-            description: "Hello World!",
-            background: "./image/02.jpg"
-        },
-        {
-            name: "Random Name #3",
-            description: "Probably the most random thing you have ever seen!",
-            background: "./image/03.jpg"
-        },
-        {
-            name: "Random Name #4",
-            description: "Hello World!",
-            background: "./image/04.jpg"
-        }
-    ]
-
+const Slider = ({ events }) => {
     return (
         <Carousel>
             {
-                items.map((item, i) => <Item key={i} item={item} />)
+                events.map((item, i) => <Item key={i} item={item} />)
             }
         </Carousel>
     )
@@ -41,10 +19,11 @@ const Item = ({ item }) => {
             <CardMedia
                 component="img"
                 height="320"
-                image={item.background}
+                image={item.image || '/empty.png'}
                 alt="green iguana"
             />
-            <CardActionArea>
+            {/* <CardActionArea> */}
+            <ButtonBase component={Link} to={`/event/detail/${item._id}`} sx={{ display: 'block', textAlign: 'initial' }}>
                 <CardContent>
                     <Typography gutterBottom variant="h6" component="div">
                         {item.name}
@@ -53,7 +32,8 @@ const Item = ({ item }) => {
                         {item.description}
                     </Typography>
                 </CardContent>
-            </CardActionArea>
+            </ButtonBase>
+            {/* </CardActionArea> */}
         </Card>
     )
 }
