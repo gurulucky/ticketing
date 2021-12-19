@@ -72,7 +72,7 @@ const Payment = () => {
                         <StripeForm onSucceed={() => null} />
                     </Elements>
                 </AccordionDetails>
-            </Accordion>
+            </Accordion>   
             <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
                     <Box component='img' src='./image/paypal.png' width='90px' height='auto' />
