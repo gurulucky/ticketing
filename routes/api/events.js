@@ -40,8 +40,11 @@ router.get('/search', async (req, res) => {
         // let events = await Event.aggregate([{$match:{ start: { $gt: from, $lt: to }, category: { $in: categories } }}]).lookup({from:'venues', localField:'venue',foreignField:'_id', as:'venues'});
         let match = { "start": { $gt: from, $lt: to } };
         // console.log(categories);
-        if (categories?.length) {
-            match["category"] = { $in: categories }
+        if(categories){
+
+            if (categories?.length) {
+                match["category"] = { $in: categories }
+            }
         }
         if (location !== "ALL") {
             match["venue.address"] = { $regex: location }
