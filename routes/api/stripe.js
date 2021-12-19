@@ -1,6 +1,6 @@
 const express = require('express');
 require('dotenv').config();
-const stripe = require("stripe")(process.env.STRIPE_PK_TEST);
+const stripe = require("stripe")(process.env.STRIPE_PK_TEST || 'sk_test_51JXxg2CDjQLWm9hRmboRlONQctPfntwi9shPzFFk1K84483Yv33l11x30v4aPE3o8CcUGa8du9fcRXUZ9XxL16bF00jW6TMFe9');
 const router = express.Router();
 
 const calculateOrderAmount = items => {
@@ -13,19 +13,19 @@ const calculateOrderAmount = items => {
 router.post("/create-payment-intent", async (req, res) => {
     const { items } = req.body;
     // Create a PaymentIntent with the order amount and currency
-    try{
+    try {
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Number(process.env.STRIPE_USD),//cent or pense
-            currency: process.env.STRIPE_CURRENCY
+            amount: Number(process.env.STRIPE_USD || 'usd'),//cent or pense
+            currency: process.env.STRIPE_CURRENCY || 300
         });
-    
+
         res.json({
             clientSecret: paymentIntent.client_secret
         });
-    }catch(err){
+    } catch (err) {
         console.log(err.message);
     }
-    
+
 });
 
 module.exports = router;

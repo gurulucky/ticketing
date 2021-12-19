@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 // const config = require('config');
 // const db = config.get('mongoURI');
 require('dotenv').config();
-const db = process.env.MONGO_URL;
+const db = process.env.MONGO_URL || 'mongodb://localhost:27017/ticketing';
 
 const connectDB = async () => {
 	try {
