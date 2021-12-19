@@ -16,8 +16,8 @@ const Landing = () => {
     dispatch(getHomeEvents());
     let events = homeEvents.map(events => events.events[0]);
     setSliderEvents(events.filter(event => event));
-    console.log(homeEvents.map(events => events.events[0]));
-  }, [homeEvents])
+    console.log(events.filter(event => event));
+  }, [])
 
   return (
     <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
