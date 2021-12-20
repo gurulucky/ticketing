@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Box, Stack, Button, Typography } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HomeIcon from '@mui/icons-material/Home';
@@ -6,13 +6,20 @@ import HomeIcon from '@mui/icons-material/Home';
 import { formatDateTime } from '../../utils/formatDate';
 
 const EventItem = ({ event, showButton = true }) => {
+    const history = useHistory();
+
+    const buyTicket = () => {
+        window.localStorage.setItem('eventId', event._id);
+        history.push('/event/detail');
+    }
+
     return (
         <Stack direction='row' sx={{ p: "10px", borderBottom: "1px solid grey" }} spacing={2}>
             <Box component='img' src={event.image || '/empty.png'} width="150px" height="150px"></Box>
             <Stack direction='column' spacing={1}>
                 {
                     showButton ?
-                        <Link to={`/event/detail/${event._id}`}>
+                        <Link onClick={buyTicket}>
                             <Typography variant='h6' fontWeight="bold">
                                 {event.name}
                             </Typography>
@@ -23,11 +30,11 @@ const EventItem = ({ event, showButton = true }) => {
                         </Typography>
                 }
                 <Stack direction='row' alignItems="center">
-                    <AccessTimeIcon color='primary' fontSize='small'/>
+                    <AccessTimeIcon color='primary' fontSize='small' />
                     <Typography variant='body1' alignItems='center'>
                         {formatDateTime(event.start)}&nbsp;&nbsp;|&nbsp;&nbsp;
                     </Typography>
-                    <HomeIcon color='primary' fontSize='small'/>
+                    <HomeIcon color='primary' fontSize='small' />
                     <a href="#">
                         <Typography variant='body1' fontWeight="bold">
                             {
@@ -47,7 +54,7 @@ const EventItem = ({ event, showButton = true }) => {
                 </Typography>
                 {
                     showButton &&
-                    <Button component={Link} to={`/event/detail/${event._id}`} variant='contained' color='primary' sx={{ width: "200px" }}>GET TICKETS</Button>
+                    <Button variant='contained' color='primary' onClick={buyTicket} sx={{ width: "200px" }}>GET TICKETS</Button>
                 }
             </Stack>
         </Stack>

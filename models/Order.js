@@ -1,22 +1,19 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
+    email: {
+        type: String,
         required: true
     },
     ticketId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-
-
-        
     },
     quantity: {
         type: Number,
         required: true
     },
-    attendees:[],
+    attendees: [],
     date: {
         type: Date,
         default: Date.now

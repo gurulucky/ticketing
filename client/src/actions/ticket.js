@@ -17,9 +17,10 @@ export const getTickets = (eventId) => async dispatch => {
     }
 }
 
-export const sendOrders = (orders) => async dispatch => {
+export const sendOrders = (orders, attendees) => async dispatch => {
     try {
-        const res = await api.post('/orders', { orders });
+        const res = await api.post('/tickets/orders', { orders, attendees });
+        console.log(res.data);
     } catch (err) {
         console.log(err.message);
     }

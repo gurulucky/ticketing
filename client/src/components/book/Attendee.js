@@ -2,7 +2,7 @@ import { Stack, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 
-const Attendee = ({ orders, tickets, user }) => {
+const Attendee = ({ orders, tickets, user, onChangeAttendee }) => {
     const [attendees, setAttendees] = useState([]);
 
     useEffect(() => {
@@ -27,6 +27,13 @@ const Attendee = ({ orders, tickets, user }) => {
         setAttendees(newAttendees);
     }, [orders, user])
 
+    const changeAttendee = (e, index, firstOrLast) => {
+        let newAttendees = [...attendees];
+        newAttendees[index][firstOrLast] = e.target.value;
+        setAttendees(newAttendees);
+        onChangeAttendee(newAttendees);
+    }
+
     return (
         <>
             <Typography variant='h5' color='white' sx={{ backgroundColor: '#17a2b8', p: '5px', my: '10px' }}>
@@ -47,8 +54,8 @@ const Attendee = ({ orders, tickets, user }) => {
                                 {`${index + 1}. ${ticketName}`}
                             </Typography>
                             <Stack direction='row' spacing={1}>
-                                <TextField type='text' label='First name' value={attendee.firstName} sx={{ width: '50%' }} />
-                                <TextField type='text' label='Last name' value={attendee.lastName} sx={{ width: '50%' }} />
+                                <TextField type='text' label='First name' value={attendee.firstName} onChange={(e) => changeAttendee(e, index, 'firstName')} sx={{ width: '50%' }} />
+                                <TextField type='text' label='Last name' value={attendee.lastName} onChange={(e) => changeAttendee(e, index, 'lastName')} sx={{ width: '50%' }} />
                             </Stack>
                         </Stack>
                     )

@@ -46,7 +46,7 @@ const Tickets = () => {
         // dispatch(setOrders(orders))
         window.localStorage.setItem('orders', JSON.stringify(orders));
         if (orders.length > 0) {
-            history.push(`/book/${curEvent._id}`);
+            history.push(`/book`);
         } else {
             NotificationManager.error('Select tickets');
         }

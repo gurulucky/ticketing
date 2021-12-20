@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect} from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
@@ -38,7 +38,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     if (isAuthenticated) {
       history.goBack();
     }
-  },[isAuthenticated])
+  }, [isAuthenticated])
 
   return (
     <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
@@ -46,60 +46,65 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       <p className="lead">
         <i className="fas fa-user" /> Create Your Account
       </p>
-      {/* <form className="form" onSubmit={onSubmit}> */}
-      <Stack direction='column' spacing={2}>
-        <Stack direction="row" spacing={1}>
+      <form onSubmit={onSubmit}>
+        <Stack direction='column' spacing={2}>
+          <Stack direction="row" spacing={1}>
+            <TextField
+              type='text'
+              label="First Name"
+              name="firstName"
+              value={firstName}
+              onChange={onChange}
+              sx={{ width: "50%" }}
+              required
+            />
+            <TextField
+              type='text'
+              label="Last Name"
+              name="lastName"
+              value={lastName}
+              onChange={onChange}
+              sx={{ width: "50%" }}
+              required
+            />
+          </Stack>
           <TextField
-            type='text'
-            label="First Name"
-            name="firstName"
-            value={firstName}
+            type="email"
+            label="Email Address"
+            name="email"
+            value={email}
             onChange={onChange}
-            sx={{ width: "50%" }}
+            sx={{ width: "100%" }}
+            required
           />
           <TextField
-            type='text'
-            label="Last Name"
-            name="lastName"
-            value={lastName}
+            type="number"
+            label="Phone number"
+            name="phone"
+            value={phone}
             onChange={onChange}
-            sx={{ width: "50%" }}
+            sx={{ width: "100%" }}
           />
+          <TextField
+            type="password"
+            label="Password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            required
+          />
+          <TextField
+            type="password"
+            label="Confirm Password"
+            name="password2"
+            value={password2}
+            onChange={onChange}
+            required
+          />
+          {/* <input type="submit" className="btn btn-primary" value="Register" /> */}
+          <Button variant='contained' color='primary' type='submit'>Register</Button>
         </Stack>
-        <TextField
-          type="email"
-          label="Email Address"
-          name="email"
-          value={email}
-          onChange={onChange}
-          sx={{ width: "100%" }}
-        />
-        <TextField
-          type="number"
-          label="Phone number"
-          name="phone"
-          value={phone}
-          onChange={onChange}
-          sx={{ width: "100%" }}
-        />
-        <TextField
-          type="password"
-          label="Password"
-          name="password"
-          value={password}
-          onChange={onChange}
-        />
-        <TextField
-          type="password"
-          label="Confirm Password"
-          name="password2"
-          value={password2}
-          onChange={onChange}
-        />
-        {/* <input type="submit" className="btn btn-primary" value="Register" /> */}
-        <Button variant='contained' color='primary' onClick={onSubmit}>Register</Button>
-        {/* </form> */}
-      </Stack>
+      </form>
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>
       </p>

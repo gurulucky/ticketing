@@ -9,6 +9,7 @@ import Attendee from "./Attendee";
 import Payment from "./Payment";
 import { getEvent } from "../../actions/event";
 import { getTickets, sendOrders } from "../../actions/ticket";
+import { NotificationManager } from 'react-notifications';
 
 const Book = ({ match }) => {
     const history = useHistory();
@@ -16,17 +17,35 @@ const Book = ({ match }) => {
     const user = useSelector(state => state.auth.user);
     const curEvent = useSelector(state => state.event.currentEvent);
     const tickets = useSelector(state => state.ticket.tickets);
-    const [orders, setOrders] = useState();
+    const [orders, setOrders] = useState([]);
+    const [attendees, setAttendees] = useState([]);
+    const [userDetail, setUserDetail] = useState({});
 
     useEffect(() => {
-        dispatch(getEvent(match.params.id));
-        dispatch(getTickets(match.params.id));
+        let eventId = window.localStorage.getItem('eventId');
+        dispatch(getEvent(eventId));
+        dispatch(getTickets(eventId));
         setOrders(JSON.parse(window.localStorage.getItem('orders')));
         console.log('curEvent', curEvent);
     }, [])
 
+    const changeAttendees = (newAttendees) => {
+        // console.log(newAttendees);
+        setAttendees(newAttendees);
+    }
+
+    const changeUserDetail = (newUserDetail) => {
+        setUserDetail(newUserDetail);
+    }
+
     const paymentSucceed = () => {
-        dispatch(sendOrders(orders));
+        console.log('attendees', attendees);
+        let emptyAttendee = attendees.find(attendee => attendee.firstName.trim() === "" || attendee.lastName.trim() === "");
+        if (emptyAttendee) {
+            NotificationManager.error('Please fill all attendees');
+            return;
+        }
+        dispatch(sendOrders(attendees));
         history.push('/done');
     }
 
@@ -35,8 +54,8 @@ const Book = ({ match }) => {
             <BookStepper active={2} />
             <Stack direction='row' spacing={3}>
                 <Stack direction='column' sx={{ width: '60%' }}>
-                    <UserDetail user={user} />
-                    <Attendee user={user} orders={orders} tickets={tickets} />
+                    <UserDetail user={user} onChangeUser={changeUserDetail} />
+                    <Attendee user={user} orders={orders} tickets={tickets} onChangeAttendee={changeAttendees} />
                     <Payment onSucceed={paymentSucceed} />
                 </Stack>
                 <MyOrder curEvent={curEvent} tickets={tickets} orders={orders} />

@@ -23,10 +23,10 @@ const Login = ({ login, isAuthenticated }) => {
   };
 
   useEffect(() => {
-    if(isAuthenticated){
+    if (isAuthenticated) {
       history.goBack();
     }
-  },[isAuthenticated])
+  }, [isAuthenticated])
   // if (isAuthenticated) {
   //   return <Redirect to="/dashboard" />;
   // }
@@ -35,25 +35,27 @@ const Login = ({ login, isAuthenticated }) => {
     <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
       <h1 className="large text-primary">Sign In</h1>
 
-      <Stack direction='column' spacing={2}>
-        <TextField
-          type="email"
-          label="Email Address"
-          name="email"
-          value={email}
-          onChange={onChange}
-          required
-        />
-        <TextField
-          type="password"
-          label="Password"
-          name="password"
-          value={password}
-          onChange={onChange}
-          minLength="6"
-        />
-        <Button variant='contained' color='primary' onClick={onSubmit}>Sign In</Button>
-      </Stack>
+      <form onSubmit={onSubmit}>
+        <Stack direction='column' spacing={2}>
+          <TextField
+            type="email"
+            placeholder="Email Address"
+            name="email"
+            value={email}
+            onChange={onChange}
+            required
+          />
+          <TextField
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            minLength="6"
+          />
+          <Button type="submit" variant='contained' color='primary' sx={{ width: "100%" }}>Sign In</Button>
+        </Stack>
+      </form>
       <Typography variant='body2'>
         Don't have an account? <Link to="/register">Sign Up</Link>
       </Typography>

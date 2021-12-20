@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { TextField, Typography, Stack } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const UserDetail = ({ user }) => {
+const UserDetail = ({ user, onChangeUser }) => {
 
     const [userData, setUserData] = useState({
         email: '',
@@ -27,8 +27,10 @@ const UserDetail = ({ user }) => {
         }
     }, [user])
 
-    const onChange = (e) =>
+    const onChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
+        onChangeUser({ ...userData, [e.target.name]: e.target.value });
+    }
 
     return (
         // <Stack direction='column'>
@@ -75,6 +77,7 @@ const UserDetail = ({ user }) => {
                         value={firstName}
                         onChange={onChange}
                         sx={{ width: "50%" }}
+                        required={true}
                     />
                     <TextField
                         type='text'
@@ -83,6 +86,7 @@ const UserDetail = ({ user }) => {
                         value={lastName}
                         onChange={onChange}
                         sx={{ width: "50%" }}
+                        required
                     />
                 </Stack>
                 <TextField
@@ -92,6 +96,7 @@ const UserDetail = ({ user }) => {
                     value={phone}
                     onChange={onChange}
                     sx={{ width: "100%" }}
+                    required
                 />
             </Stack>
             {/* </Stack> */}
