@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Container, Stack } from "@mui/material";
+import { Container, Stack, Button } from "@mui/material";
 import BookStepper from "./BookStepper";
 import UserDetail from "./UserDetail";
 import MyOrder from "./MyOrder";
@@ -11,7 +11,8 @@ import { getEvent } from "../../actions/event";
 import { getTickets, sendOrders } from "../../actions/ticket";
 import { NotificationManager } from 'react-notifications';
 
-const Book = ({ match }) => {
+const Book = () => {
+    const submitButton = useRef(null);
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(state => state.auth.user);
@@ -54,9 +55,12 @@ const Book = ({ match }) => {
             <BookStepper active={2} />
             <Stack direction='row' spacing={3}>
                 <Stack direction='column' sx={{ width: '60%' }}>
-                    <UserDetail user={user} onChangeUser={changeUserDetail} />
-                    <Attendee user={user} orders={orders} tickets={tickets} onChangeAttendee={changeAttendees} />
-                    <Payment onSucceed={paymentSucceed} />
+                    <form onSubmit={paymentSucceed}>
+                        <UserDetail user={user} onChangeUser={changeUserDetail} />
+                        <Attendee user={user} orders={orders} tickets={tickets} onChangeAttendee={changeAttendees} />
+                        <Payment onSucceed={paymentSucceed} />
+                        <Button type='submit'></Button>
+                    </form>
                 </Stack>
                 <MyOrder curEvent={curEvent} tickets={tickets} orders={orders} />
             </Stack>

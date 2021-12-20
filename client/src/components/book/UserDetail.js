@@ -99,7 +99,6 @@ const UserDetail = ({ user, onChangeUser }) => {
                     required
                 />
             </Stack>
-            {/* </Stack> */}
         </>
     )
 
