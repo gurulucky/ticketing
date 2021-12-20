@@ -7,13 +7,12 @@ import Detail from './Detail';
 import { getEvent } from '../../actions/event';
 
 
-const EventDetail = () => {
+const EventDetail = ({ match }) => {
     const dispatch = useDispatch();
     const event = useSelector(state => state.event.currentEvent);
     useEffect(() => {
-        let eventId = window.localStorage.getItem('eventId');
-        dispatch(getEvent(eventId));
-    }, []);
+        dispatch(getEvent(match.params.id));
+    }, [match.params.id]);
     return (
         <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
             {

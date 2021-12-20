@@ -1,9 +1,33 @@
-import { Link, useHistory } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Typography, CardActionArea, CardContent, Card, CardMedia, Container, Grid, ButtonBase } from '@mui/material'
 
 const EventCarousel = ({ caption, events }) => {
+
+    var items = [
+        {
+            name: "Random Name #1",
+            description: "Probably the most random thing you have ever seen!",
+            background: "./image/01.jpg"
+        },
+        {
+            name: "Random Name #2",
+            description: "Hello World!",
+            background: "./image/02.jpg"
+        },
+        {
+            name: "Random Name #3",
+            description: "Probably the most random thing you have ever seen!",
+            background: "./image/03.jpg"
+        },
+        {
+            name: "Random Name #4",
+            description: "Hello World!",
+            background: "./image/04.jpg"
+        }
+    ]
+
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -22,6 +46,7 @@ const EventCarousel = ({ caption, events }) => {
         }
     };
 
+
     return (
         <Container sx={{ borderBottom: '1px solid green', paddingBottom: '10px' }}>
             <Typography variant='h5' color='white' sx={{ backgroundColor: '#17a2b8', my: "10px", p: "5px" }}>{caption}</Typography>
@@ -34,25 +59,19 @@ const EventCarousel = ({ caption, events }) => {
             > */}
             <Grid container>
                 {
-                    events.map((item, i) => <Item key={i} item={item}/>)
+                    events.map((item, i) => <Item key={i} item={item} />)
                 }
             </Grid>
             {/* </Carousel> */}
         </Container>
     )
 }
-const Item = ({ item}) => {
-
-    const history = useHistory();
-    const goDetail = (e, id) => {
-        window.localStorage.setItem('eventId', id);
-        history.push('/event/detail');
-    }
+const Item = ({ item }) => {
     return (
         <Grid item md={3}>
             <Card sx={{ width: "90%", height: "380px", m: "10" }}>
                 {/* <CardActionArea> */}
-                <ButtonBase onClick={(e) => goDetail(e, item._id)} sx={{ display: 'block', textAlign: 'initial' }}>
+                <ButtonBase component={Link} to={`/event/detail/${item._id}`} sx={{display:'block', textAlign:'initial'}}>
                     <CardMedia
                         component="img"
                         height="280"
