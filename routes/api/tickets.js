@@ -72,7 +72,7 @@ router.post('/orders', async (req, res) => {
                 from: 'guruluckystacker@gmail.com',
                 to: email,
                 subject: 'Crypticks Order',
-                text: mail_html
+                html: mail_html
             }
             console.log(emailData);
             try {
