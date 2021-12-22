@@ -18,6 +18,8 @@ const credentials = {
     }
 }
 
+console.log(credentials);
+
 const transporter = nodemailer.createTransport(credentials);
 
 const formatDateTime = (date) => {

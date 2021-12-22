@@ -4,4 +4,3 @@ config/default.json
 client/build
 client/.eslintcache
 .svn/
-/server.js
