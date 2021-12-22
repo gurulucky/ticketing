@@ -60,7 +60,7 @@ router.post('/orders', async (req, res) => {
             let mail_html = '<h4>You ordered followings.</h4>';
             let eventId = (await Ticket.findById(result[0].ticketId))?.eventId;
             let event = await Event.findById(eventId);
-            mail_html += `<p>Event:<a href='http://crypticks.com.au/event/detail/${event._id}> ${event.name}</a> Start:${formatDateTime(event.start)}</p>`;
+            mail_html += `<p>Event:<a href='http://crypticks.com.au/event/detail/${event._id}'> ${event.name}</a></p><p> Start:${formatDateTime(event.start)}</p>`;
             // console.log(mail_html);
             for (let i = 0; i < result.length; i++) {
                 // console.log(i, result[i]);
