@@ -6,15 +6,16 @@ import {
     useElements
 } from "@stripe/react-stripe-js";
 import { Button, Stack, Typography } from '@mui/material';
-import api from '../../utils/api';
+import api from '../../../utils/api';
 
-const StripeForm = (props) => {
+const StripeForm = ({ onSucceed, isValid, checkValidation, payment }) => {
     const [succeeded, setSucceeded] = useState(false);
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState('');
     const [disabled, setDisabled] = useState(true);
     const [clientSecret, setClientSecret] = useState('');
     const [postalCode, setpostalCode] = useState('');
+    const [clicked, setClicked] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
     const dispatch = useDispatch();
@@ -30,8 +31,15 @@ const StripeForm = (props) => {
                 console.log('getclientsecret err', err);
             }
         }
-        getClientSecret();
-    }, []);
+        if (!clientSecret) {
+            getClientSecret();
+        }
+        if (isValid && payment === 'stripe' && clicked) {
+            console.log('dopay');
+            doPayment();
+            setClicked(false);
+        }
+    }, [isValid, payment, clicked]);
 
     const cardStyle = {
         style: {
@@ -59,9 +67,13 @@ const StripeForm = (props) => {
         setpostalCode(event.value.postalCode);
     };
 
-    const handleSubmit = async ev => {
+    const handleSubmit = ev => {
         ev.preventDefault();
+        checkValidation();
+        setClicked(true);
+    };
 
+    const doPayment = async () => {
         setProcessing(true);
         console.log('clientSecret', clientSecret);
 
@@ -83,9 +95,9 @@ const StripeForm = (props) => {
             setProcessing(false);
             setSucceeded(true);
             // props.onSucceed(email, postalCode);
-            props.onSucceed(postalCode);
+            onSucceed(postalCode);
         }
-    };
+    }
 
     return (
         <form onSubmit={handleSubmit}>

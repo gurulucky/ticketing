@@ -1,4 +1,4 @@
-import { Button} from '@mui/material';
+import { Button, Divider} from '@mui/material';
 import { styled} from '@mui/system';
 
 export const NavMenuItem = styled(Button)(({ theme }) => ({
@@ -14,4 +14,8 @@ export const NavMenuItem = styled(Button)(({ theme }) => ({
         color: "white",
     },
     textTransform: "inherit"
+}));
+
+export const OrderDivider = styled(Divider)(({ theme }) => ({
+    borderBottomWidth: 2,
 }));

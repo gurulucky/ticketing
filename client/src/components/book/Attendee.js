@@ -25,6 +25,7 @@ const Attendee = ({ orders, tickets, user, onChangeAttendee }) => {
             }
         })
         setAttendees(newAttendees);
+        onChangeAttendee(newAttendees);
     }, [orders, user])
 
     const changeAttendee = (e, index, firstOrLast) => {
@@ -49,13 +50,13 @@ const Attendee = ({ orders, tickets, user, onChangeAttendee }) => {
                 attendees.map((attendee, index) => {
                     let ticketName = tickets.find(ticket => ticket._id === attendee.ticketId)?.name;
                     return (
-                        <Stack direction='column' spacing={1}>
+                        <Stack key={index} direction='column' spacing={1}>
                             <Typography variant='h6'>
                                 {`${index + 1}. ${ticketName}`}
                             </Typography>
                             <Stack direction='row' spacing={1}>
-                                <TextField type='text' label='First name' value={attendee.firstName} onChange={(e) => changeAttendee(e, index, 'firstName')} sx={{ width: '50%' }} />
-                                <TextField type='text' label='Last name' value={attendee.lastName} onChange={(e) => changeAttendee(e, index, 'lastName')} sx={{ width: '50%' }} />
+                                <TextField type='text' label='First name' value={attendee.firstName} onChange={(e) => changeAttendee(e, index, 'firstName')} sx={{ width: '50%' }} required />
+                                <TextField type='text' label='Last name' value={attendee.lastName} onChange={(e) => changeAttendee(e, index, 'lastName')} sx={{ width: '50%' }} required />
                             </Stack>
                         </Stack>
                     )

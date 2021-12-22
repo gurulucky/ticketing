@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Stack, Box, Button } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const PaypalForm = ({onSucceed}) => {
+const PaypalForm = ({ onSucceed, isValid, checkValidation, payment }) => {
+    const [clicked, setClicked] = useState(false);
+    const [visiblePaypal, setVisiblePaypal] = useState('hidden');
     const PAYMENT_CURRENCY = "USD";
     const amount = {
         currency_code: PAYMENT_CURRENCY,
         value: "10"
     };
+
+    useEffect(() => {
+        if (isValid && payment === 'paypal' && clicked) {
+            setVisiblePaypal('visible');
+            setClicked(false);
+        }
+    }, [isValid, payment, clicked])
+
     function createOrder(data, actions) {
         // throw new Error("force the createOrder callback to fail");
         return actions.order.create({
@@ -79,9 +90,10 @@ const PaypalForm = ({onSucceed}) => {
         // return actions.disable();
         console.log("inside init");
     }
-    function onClick(data, actions) {
+    function clickPaypal(e, data, actions) {
         // actions.disable();
         console.log("inside click");
+        setVisiblePaypal('hidden');
         // return actions.resolve();
     }
     function onApprove(data, actions) {
@@ -96,7 +108,12 @@ const PaypalForm = ({onSucceed}) => {
         console.error("error from the onError callback", err);
     }
     return (
-        <>
+        <Stack direction='column'>
+            <Button variant='outlined'
+                onClick={() => {
+                    checkValidation();
+                    setClicked(true);
+                }}>Click me</Button>
             <PayPalScriptProvider
                 options={{
                     "client-id": "ASNOXtf9lVa63O8sWpE8Sk84FmdMIXvQ6uRAnT_YGZ5d3Q_lmCDUNCMIew184piwJbzJVL_eaWe7wpf6",
@@ -106,17 +123,20 @@ const PaypalForm = ({onSucceed}) => {
                     "disable-funding": "credit,card"
                 }}
             >
-                <PayPalButtons
-                    style={{ color: "white", label: "checkout" }}
-                    createOrder={createOrder}
-                    onClick={onClick}
-                    onShippingChange={onShippingChange}
-                    onApprove={onApprove}
-                    onError={onError}
-                    onInit={oninit}
-                />
+                <Box sx={{ visibility: `${visiblePaypal}` }}>
+
+                    <PayPalButtons
+                        style={{ color: "white", label: "checkout" }}
+                        createOrder={createOrder}
+                        onClick={clickPaypal}
+                        onShippingChange={onShippingChange}
+                        onApprove={onApprove}
+                        onError={onError}
+                        onInit={oninit}
+                    />
+                </Box>
             </PayPalScriptProvider>
-        </>
+        </Stack>
     );
 }
 

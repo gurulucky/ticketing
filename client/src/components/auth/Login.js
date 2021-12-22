@@ -56,7 +56,7 @@ const Login = ({ login, isAuthenticated }) => {
           <Button type="submit" variant='contained' color='primary' sx={{ width: "100%" }}>Sign In</Button>
         </Stack>
       </form>
-      <Typography variant='body2'>
+      <Typography variant='body1' sx={{mt:'20px'}}>
         Don't have an account? <Link to="/register">Sign Up</Link>
       </Typography>
     </Container >

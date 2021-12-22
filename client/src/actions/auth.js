@@ -77,3 +77,39 @@ export const login = (email, password) => async dispatch => {
 
 // Logout
 export const logout = () => ({ type: LOGOUT });
+
+export const setUser = (user) => dispatch => {
+  dispatch({
+    type: USER_LOADED,
+    payload: user
+  })
+}
+
+export const saveDetail = (user) => async dispatch => {
+  try {
+    // console.log(user);
+    const res = await api.post('/users/savedetail', user);
+    console.log('saveDetail', res.data);
+    dispatch(setAlert('User details save successfully', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+}
+
+export const resetPassword = (passwords) => async dispatch => {
+  try {
+    const res = await api.post('/users/resetpassword', passwords);
+    console.log('resetPassword', res.data);
+    dispatch(setAlert('Reset password successfully', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
+}

@@ -13,8 +13,7 @@ import Dashboard from '../dashboard/Dashboard';
 import ProfileForm from '../profile-forms/ProfileForm';
 import AddExperience from '../profile-forms/AddExperience';
 import AddEducation from '../profile-forms/AddEducation';
-import Profiles from '../profiles/Profiles';
-import Profile from '../profile/Profile';
+import Profile from '../user/Profile';
 import Posts from '../posts/Posts';
 import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
@@ -33,7 +32,7 @@ const Routes = () => {
         <Route exact path="/book/:id" component={Book} />
         <Route exact path="/done" component={Done} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/profile/:id" component={Profile} />
+        <Route exact path="/profile" component={Profile} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/create-profile" component={ProfileForm} />
         <PrivateRoute exact path="/edit-profile" component={ProfileForm} />

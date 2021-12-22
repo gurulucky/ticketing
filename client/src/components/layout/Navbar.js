@@ -3,14 +3,23 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
-import { Stack, Typography, TextField, InputAdornment, IconButton, Paper, InputBase } from '@mui/material';
+import { Stack, Typography, IconButton, Paper, InputBase, Avatar, Menu, MenuItem, Divider, ListItemIcon } from '@mui/material';
+import { AccountCircle, Settings, Logout, Login } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
 import { NavMenuItem } from '../styled/StyledInput';
 
 const Navbar = ({ auth: { isAuthenticated }, logout }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const Links = (
-    <Stack direction='row' alignItems='flex-end' spacing={1}>
+    <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={1}>
       <NavLink to='/home' style={{ textDecoration: 'none' }}>
         <NavMenuItem variant='h6'>
           Home
@@ -21,19 +30,71 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
           What's on
         </NavMenuItem>
       </NavLink>
-      {
-        isAuthenticated ?
-          <NavMenuItem variant='h6' onClick={logout}>
-            <i className="fas fa-sign-out-alt" />{' '}
-            <span className="hide-sm">SignOut</span>
-          </NavMenuItem>
-          :
-          <NavLink to='/login' style={{ textDecoration: 'none' }}>
-            <NavMenuItem variant='h6'>
-              Sign In
-            </NavMenuItem>
-          </NavLink>
-      }
+      <IconButton onClick={handleClick} sx={{ ml: 2, color: 'white' }}>
+        <AccountCircle fontSize='large' />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <NavLink to='/profile' style={{ textDecoration: 'none', color: 'black' }}>
+          <MenuItem>
+            <ListItemIcon>
+              <AccountCircle fontSize="small" />
+            </ListItemIcon>
+            My Account
+          </MenuItem>
+        </NavLink>
+        {
+          isAuthenticated ?
+            <MenuItem onClick={logout}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+            :
+            <NavLink to='/login' style={{ textDecoration: 'none', color: 'black' }}>
+              <MenuItem>
+                <ListItemIcon>
+                  <Login fontSize="small" />
+                </ListItemIcon>
+                Login
+              </MenuItem>
+
+            </NavLink>
+        }
+      </Menu>
     </Stack>
   );
 
@@ -50,7 +111,7 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
       >
         <Link to="/" style={{ textDecoration: 'none', paddingLeft: "30px" }}>
           <Typography color="white" variant='h4' fontWeight='bold'>
-            Ticketing
+            Crypticks
           </Typography>
         </Link>
         <Paper

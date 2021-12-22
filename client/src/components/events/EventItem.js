@@ -19,7 +19,7 @@ const EventItem = ({ event, showButton = true }) => {
             <Stack direction='column' spacing={1}>
                 {
                     showButton ?
-                        <Link onClick={buyTicket}>
+                        <Link to={`/event/detail/${event._id}`}>
                             <Typography variant='h6' fontWeight="bold">
                                 {event.name}
                             </Typography>
@@ -54,7 +54,7 @@ const EventItem = ({ event, showButton = true }) => {
                 </Typography>
                 {
                     showButton &&
-                    <Button variant='contained' color='primary' onClick={buyTicket} sx={{ width: "200px" }}>GET TICKETS</Button>
+                    <Button component={Link} to={`/event/detail/${event._id}`} variant='contained' color='primary'  sx={{ width: "200px" }}>GET TICKETS</Button>
                 }
             </Stack>
         </Stack>

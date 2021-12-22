@@ -40,7 +40,7 @@ const UserDetail = ({ user, onChangeUser }) => {
             </Typography>
             <Stack direction='column' spacing={2}>
                 {
-                    user ?
+                    user?.isAuthenticated ?
                         <Stack direction='row' alignItems='center' spacing={1} sx={{ borderRadius: '3px', background: 'rgb(230,230,230)', p: '10px' }}>
                             <AccountCircleIcon color='primary' fontSize='large' />
                             <Stack direction='column'>

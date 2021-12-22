@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Stack, Typography, Divider } from '@mui/material';
-import { Box, styled } from '@mui/system';
+import { Stack, Typography, } from '@mui/material';
+import { Box} from '@mui/system';
 import { formatDateTime } from '../../utils/formatDate';
-import { setOrders } from '../../actions/ticket';
+import {OrderDivider} from '../styled/StyledInput';
 
 
 const MyOrder = ({ tickets, orders, curEvent }) => {
@@ -40,13 +40,13 @@ const MyOrder = ({ tickets, orders, curEvent }) => {
                 </Stack>
             </Stack>
             {
-                orders?.map(order => {
+                orders?.map((order, index) => {
                     if (order[1] > 0) {
                         let ticket = tickets.find(ticket => ticket._id === order[0]);
                         return (
                             <>
                                 <OrderDivider />
-                                <Ticket ticket={ticket} quantity={order[1]} />
+                                <Ticket key={index} ticket={ticket} quantity={order[1]} />
                             </>
                         )
                     }
@@ -58,10 +58,6 @@ const MyOrder = ({ tickets, orders, curEvent }) => {
         </Stack>
     )
 }
-
-const OrderDivider = styled(Divider)(({ theme }) => ({
-    borderBottomWidth: 2,
-}));
 
 const Ticket = ({ ticket, quantity }) => {
     return (

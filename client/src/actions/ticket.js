@@ -2,6 +2,7 @@ import api from '../utils/api';
 import {
     GET_TICKETS,
     SEND_ORDERS,
+    ORDER_SUCCESS
 } from './types';
 
 export const getTickets = (eventId) => async dispatch => {
@@ -17,10 +18,18 @@ export const getTickets = (eventId) => async dispatch => {
     }
 }
 
-export const sendOrders = (orders, attendees) => async dispatch => {
+export const sendOrders = (history, email, attendees) => async dispatch => {
     try {
-        const res = await api.post('/tickets/orders', { orders, attendees });
-        console.log(res.data);
+        console.log('attendees', email, attendees);
+        const res = await api.post('/tickets/orders', { email, attendees });
+        console.log('orders', res.data.result);        
+        if (res.data.result) {
+            dispatch({
+                type: ORDER_SUCCESS,
+                payload: res.data.result
+            })
+            history.push('/done');
+        }
     } catch (err) {
         console.log(err.message);
     }

@@ -51,42 +51,44 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 
-const Payment = ({onSucceed}) => {
-    const [expanded, setExpanded] = React.useState('panel1');
+const Payment = ({ onSucceed, isValid, checkValidation }) => {
+    const [expanded, setExpanded] = React.useState('stripe');
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
+
+
 
     return (
         <>
             <Typography variant='h5' color='white' sx={{ backgroundColor: '#17a2b8', p: '5px', my: '10px' }}>
                 PAYMENT METHOD
             </Typography>
-            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            <Accordion expanded={expanded === 'stripe'} onChange={handleChange('stripe')}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                     <Box component='img' src='/image/stripe.png' width='60px' height='auto' />
                 </AccordionSummary>
                 <AccordionDetails>
                     <Elements stripe={promise}>
-                        <StripeForm onSucceed={onSucceed} />
+                        <StripeForm onSucceed={onSucceed} isValid={isValid} checkValidation={checkValidation} payment={expanded} />
                     </Elements>
                 </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+            <Accordion expanded={expanded === 'paypal'} onChange={handleChange('paypal')}>
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
                     <Box component='img' src='/image/paypal.png' width='90px' height='auto' />
                 </AccordionSummary>
                 <AccordionDetails>
-                    <PaypalForm onSucceed={onSucceed} />
+                    <PaypalForm onSucceed={onSucceed} isValid={isValid} checkValidation={checkValidation} payment={expanded} />
                 </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+            <Accordion expanded={expanded === 'coinbase'} onChange={handleChange('coinbase')}>
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
                     <Box component='img' src='/image/coinbase.svg' width='90px' height='auto' />
                 </AccordionSummary>
                 <AccordionDetails>
-                    <CoinbaseForm onSucceed={onSucceed} />
+                    <CoinbaseForm onSucceed={onSucceed} isValid={isValid} checkValidation={checkValidation} payment={expanded} />
                 </AccordionDetails>
             </Accordion>
         </>
