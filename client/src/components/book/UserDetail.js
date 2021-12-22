@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import {useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TextField, Typography, Stack } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const UserDetail = ({ user, onChangeUser }) => {
-
+    const isAuthenticated = useSelector(state=>state.auth.isAuthenticated);
     const [userData, setUserData] = useState({
         email: '',
         firstName: '',
@@ -40,7 +41,7 @@ const UserDetail = ({ user, onChangeUser }) => {
             </Typography>
             <Stack direction='column' spacing={2}>
                 {
-                    user?.isAuthenticated ?
+                    isAuthenticated ?
                         <Stack direction='row' alignItems='center' spacing={1} sx={{ borderRadius: '3px', background: 'rgb(230,230,230)', p: '10px' }}>
                             <AccountCircleIcon color='primary' fontSize='large' />
                             <Stack direction='column'>
