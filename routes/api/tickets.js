@@ -18,8 +18,6 @@ const credentials = {
     }
 }
 
-console.log(credentials);
-
 const transporter = nodemailer.createTransport(credentials);
 
 const formatDateTime = (date) => {
@@ -74,7 +72,7 @@ router.post('/orders', async (req, res) => {
                 from: 'guruluckystacker@gmail.com',
                 to: email,
                 subject: 'Crypticks Order',
-                html: mail_html
+                text: mail_html
             }
             console.log(emailData);
             try {
