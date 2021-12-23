@@ -5,6 +5,7 @@ import profile from './profile';
 import post from './post';
 import event from './event';
 import ticket from './ticket';
+import venue from './venue';
 
 export default combineReducers({
   alert,
@@ -12,5 +13,6 @@ export default combineReducers({
   profile,
   post,
   event,
-  ticket
+  ticket,
+  venue
 });

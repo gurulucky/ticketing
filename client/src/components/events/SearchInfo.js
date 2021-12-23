@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, Stack, TextField, FormControl, Select, MenuItem, InputLabel, Checkbox, FormControlLabel, Button } from "@mui/material";
 import DatePicker from '@mui/lab/MobileDatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -8,7 +8,7 @@ import { getEvents } from '../../actions/event';
 
 const SearchInfo = () => {
     const dispatch = useDispatch();
-
+    const searchData = useSelector(state => state.event.searchData);
     const [location, setLocation] = useState("ALL");
     const LOCATIONS = ["ALL", "ACT", "NSW", "NT", "TAS", "WA", "SA", "QLD", "VIC"];
     const [time, setTime] = useState("Next 7 Days");
@@ -27,13 +27,14 @@ const SearchInfo = () => {
     const [to, setTo] = useState();
 
     useEffect(() => {
+        console.log('searchinfo useeffect');
         let now = new Date();
         setFrom(new Date());
         now.setDate(now.getDate() + 7);
         setTo(now);
 
         updateResult();
-    }, []);
+    }, [searchData]);
 
     const changeLocation = (e) => {
         setLocation(e.target.value);
@@ -95,8 +96,9 @@ const SearchInfo = () => {
         keys.forEach(element => {
             categories[element] && selCates.push(element);
         });
-        dispatch(getEvents({ location, from: fromDate, to: toDate, categories: selCates }));
+        dispatch(getEvents({ searchData, location, from: fromDate, to: toDate, categories: selCates }));
     }
+
     return (
         <Container sx={{ py: "10px", borderBottom: "1px solid green" }}>
             <Stack direction='row' spacing={3}>

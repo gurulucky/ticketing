@@ -30,3 +30,7 @@ export const GET_EVENT = 'GET_EVENT';
 export const GET_TICKETS = 'GET_TICKETS';
 export const SEND_ORDERS = 'SEND_ORDERS';
 export const ORDER_SUCCESS = 'ORDER_SUCCESS';
+export const SET_USER_DETAIL = 'SET_USER_DETAIL';
+export const GET_VENUES = 'GET_VENUES';
+export const GET_VENUE = 'GET_VENUE';
+export const SET_SEARCH_DATA = 'SET_SEARCH_DATA';

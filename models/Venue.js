@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const VenueSchema = new mongoose.Schema({
-    
+
     name: {
         type: String,
         required: true,
@@ -19,6 +19,12 @@ const VenueSchema = new mongoose.Schema({
     },
     link: {
         type: String,
+    },
+    image: {
+        type: String,
+    },
+    description:{
+        type:String
     }
 });
 

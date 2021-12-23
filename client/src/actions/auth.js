@@ -7,7 +7,8 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  SET_USER_DETAIL
 } from './types';
 
 // Load User
@@ -80,7 +81,7 @@ export const logout = () => ({ type: LOGOUT });
 
 export const setUser = (user) => dispatch => {
   dispatch({
-    type: USER_LOADED,
+    type: SET_USER_DETAIL,
     payload: user
   })
 }

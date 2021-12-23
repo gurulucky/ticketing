@@ -29,26 +29,41 @@ router.get('/home', async (req, res) => {
 
 router.get('/search', async (req, res) => {
     try {
+        let searchData = req.query.searchData;
         let location = req.query.location;
-        let from = new Date(req.query.from);
+        let from = req.query.from ? new Date(req.query.from) : new Date();
         from.setUTCHours(0); from.setUTCMinutes(0); from.setUTCSeconds(0);
-        let to = new Date(req.query.to);
-        to.setUTCHours(23); to.setUTCMinutes(59); to.setUTCSeconds(59);
+        let to = req.query.to ? new Date(req.query.to) : null;
+        if (to) {
+            to.setUTCHours(23); to.setUTCMinutes(59); to.setUTCSeconds(59);
+        }
         let categories = req.query.categories;
         // let events = await Event.find({ start: { $gt: from, $lt: to }, category: { $in: categories } })
         // .populate('venue', ['address']);
         // let events = await Event.aggregate([{$match:{ start: { $gt: from, $lt: to }, category: { $in: categories } }}]).lookup({from:'venues', localField:'venue',foreignField:'_id', as:'venues'});
-        let match = { "start": { $gt: from, $lt: to } };
+        let match = {};
+        if (!to) {
+            match['start'] = { $gt: from };
+        } else {
+            match['start'] = { $gt: from, $lt: to };
+        }
         // console.log(categories);
-        if(categories){
+        if (categories) {
 
             if (categories.length) {
                 match["category"] = { $in: categories }
             }
         }
-        if (location !== "ALL") {
-            match["venue.address"] = { $regex: location }
+        if (location !== "ALL" && location) {
+            // match["venue.address"] = { $regex: location }
+            if (searchData) {
+                match['name'] = { $regex: searchData , $options:'i'}
+            }
+            match['$or'] = [{ 'venue.address': { $regex: location , $options:'i'} }, { 'venue.name': { $regex: location , $options:'i'} }];
+        } else if (searchData) {
+            match['$or'] = [{ 'venue.name': { $regex: searchData, $options:'i' } }, { 'name': { $regex: searchData, $options:'i' } }];
         }
+
         let pipeline = [
             {
                 "$lookup": {
@@ -68,6 +83,7 @@ router.get('/search', async (req, res) => {
                 "$limit": 20
             }
         ]
+        // console.log(match);
         let events = await Event.aggregate(pipeline);
         // console.log(events);
         res.json(events);

@@ -1,13 +1,15 @@
 import {
     GET_HOME_EVENTS,
     GET_EVENTS,
-    GET_EVENT
+    GET_EVENT,
+    SET_SEARCH_DATA
 } from '../actions/types';
 
 const initialState = {
     homeEvents: [],
     events: [],
-    currentEvent: null
+    currentEvent: null,
+    searchData: ''
 }
 
 function eventReducer(state = initialState, action) {
@@ -29,6 +31,11 @@ function eventReducer(state = initialState, action) {
                 ...state,
                 currentEvent: payload
             };
+        case SET_SEARCH_DATA:
+            return {
+                ...state,
+                searchData: payload
+            }
         default:
             return state;
     }

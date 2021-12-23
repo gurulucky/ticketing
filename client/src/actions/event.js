@@ -3,6 +3,7 @@ import {
     GET_HOME_EVENTS,
     GET_EVENTS,
     GET_EVENT,
+    SET_SEARCH_DATA
 } from './types';
 
 export const getHomeEvents = () => async dispatch => {
@@ -42,4 +43,11 @@ export const getEvent = (id) => async dispatch => {
     } catch (err) {
         console.log(err.message);
     }
+}
+
+export const setSearchData = (searchData) => async dispatch => {
+    dispatch({
+        type: SET_SEARCH_DATA,
+        payload: searchData
+    })
 }

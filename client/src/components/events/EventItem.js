@@ -8,11 +8,6 @@ import { formatDateTime } from '../../utils/formatDate';
 const EventItem = ({ event, showButton = true }) => {
     const history = useHistory();
 
-    const buyTicket = () => {
-        window.localStorage.setItem('eventId', event._id);
-        history.push('/event/detail');
-    }
-
     return (
         <Stack direction='row' sx={{ p: "10px", borderBottom: "1px solid grey" }} spacing={2}>
             <Box component='img' src={event.image || '/empty.png'} width="150px" height="150px"></Box>
@@ -35,18 +30,18 @@ const EventItem = ({ event, showButton = true }) => {
                         {formatDateTime(event.start)}&nbsp;&nbsp;|&nbsp;&nbsp;
                     </Typography>
                     <HomeIcon color='primary' fontSize='small' />
-                    <a href="#">
-                        <Typography variant='body1' fontWeight="bold">
-                            {
-                                Array.isArray(event.venue)
-                                    ?
-                                    event.venue[0].address
-                                    :
-                                    event.venue.address
-                            }
-                        </Typography>
-
-                    </a>
+                    <Typography variant='body1' fontWeight="bold">
+                        {
+                            Array.isArray(event.venue)
+                                ?
+                                <Link to={`/venue/detail/${event.venue[0]._id}`}>
+                                    {event.venue[0].name}
+                                </Link>
+                                : <Link to={`/venue/detail/${event.venue._id}`}>
+                                    {event.venue.name}
+                                </Link>
+                        }
+                    </Typography>
 
                 </Stack>
                 <Typography variant='body1'>
@@ -54,7 +49,7 @@ const EventItem = ({ event, showButton = true }) => {
                 </Typography>
                 {
                     showButton &&
-                    <Button component={Link} to={`/event/detail/${event._id}`} variant='contained' color='primary'  sx={{ width: "200px" }}>GET TICKETS</Button>
+                    <Button component={Link} to={`/event/detail/${event._id}`} variant='contained' color='primary' sx={{ width: "200px" }}>GET TICKETS</Button>
                 }
             </Stack>
         </Stack>

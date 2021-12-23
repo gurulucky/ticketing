@@ -5,6 +5,8 @@ import Events from '../events/Events';
 import EventDetail from '../eventdetail/EventDetail';
 import Book from '../book/Book';
 import Done from '../done/Done';
+import Venues from '../venues/Venues';
+import VenueDetail from '../venues/VenueDetail';
 
 import Register from '../auth/Register';
 import Login from '../auth/Login';
@@ -31,6 +33,8 @@ const Routes = () => {
         <Route exact path="/event/detail/:id" component={EventDetail} />
         <Route exact path="/book/:id" component={Book} />
         <Route exact path="/done" component={Done} />
+        <Route exact path='/venue' component={Venues} />
+        <Route exact path='/venue/detail/:id' component={VenueDetail} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/profile" component={Profile} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />

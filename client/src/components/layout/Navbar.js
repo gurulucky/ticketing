@@ -1,22 +1,40 @@
-import React, { Fragment } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Fragment, useState } from 'react';
+import { Link, NavLink, useHistory } from 'react-router-dom';
+import { connect, dispatch, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import { Stack, Typography, IconButton, Paper, InputBase, Avatar, Menu, MenuItem, Divider, ListItemIcon } from '@mui/material';
 import { AccountCircle, Settings, Logout, Login } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
 import { NavMenuItem } from '../styled/StyledInput';
+import { setSearchData } from '../../actions/event';
 
 const Navbar = ({ auth: { isAuthenticated }, logout }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const [search, setSearch] = useState('');
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    dispatch(setSearchData(e.target.value));
+  }
+
+  const keyPress = (e) => {
+    if (e.keyCode === 13) {
+      // console.log('search',e.target.value);
+      history.push('/event');
+      // window.location.reload();
+    }
+  }
 
   const Links = (
     <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={1}>
@@ -28,6 +46,11 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
       <NavLink to='/event' style={{ textDecoration: 'none' }}>
         <NavMenuItem variant='h6'>
           What's on
+        </NavMenuItem>
+      </NavLink>
+      <NavLink to='/venue' style={{ textDecoration: 'none' }}>
+        <NavMenuItem variant='h6'>
+          Venues
         </NavMenuItem>
       </NavLink>
       <IconButton onClick={handleClick} sx={{ ml: 2, color: 'white' }}>
@@ -115,13 +138,15 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
           </Typography>
         </Link>
         <Paper
-          component="form"
           sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
         >
           <InputBase
+            value={search}
             sx={{ ml: 1, flex: 1 }}
             placeholder="Artist, Event or Venue"
             inputProps={{ 'aria-label': 'search google maps' }}
+            onKeyDown={keyPress}
+            onChange={handleSearchChange}
           />
           <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
@@ -140,7 +165,7 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

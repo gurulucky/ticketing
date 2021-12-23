@@ -10,9 +10,9 @@ const Events = () => {
         <Container sx={{ minHeight: window.innerHeight * 0.6 + 'px' }}>
             <SearchInfo />
             {events.map(item => <EventItem key={item._id} event={item} />)}
-            <Stack direction='row' justifyContent='center' sx={{pt:"10px"}}>
+            {/* <Stack direction='row' justifyContent='center' sx={{pt:"10px"}}>
                 <Pagination count={10} color='primary' />
-            </Stack>
+            </Stack> */}
         </Container>
     )
 }
