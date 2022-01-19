@@ -1,35 +1,34 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+module.exports = (sequelize, Sequelize) => {
+    const Ticket = sequelize.define("ticket", {
+        eventId: {
+            type: Sequelize.INTEGER,
+            // references:{
+            //     model:'event',
+            //     key:'id'
+            // }
+        },
+        name: {
+            type: Sequelize.STRING
+        },
+        description: {
+            type: Sequelize.STRING
+        },
+        from: {
+            type: Sequelize.DATE
+        },
+        to: {
+            type: Sequelize.DATE
+        },
+        price: {
+            type: Sequelize.FLOAT
+        },
+        quantity: {
+            type: Sequelize.INTEGER
+        },
+        sold: {
+            type: Sequelize.INTEGER
+        }
+    });
 
-const TicketSchema = new mongoose.Schema({
-    eventId: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    from: {
-        type: Date,
-        default: Date.now
-    },
-    to: {
-        type: Date,
-        default: Date.now
-    },
-    price: {
-        type: Number,
-        required: true
-    },
-    quantity: {
-        type: Number,
-        required: true
-    }
-});
-
-module.exports = mongoose.model('ticket', TicketSchema);
+    return Ticket;
+};

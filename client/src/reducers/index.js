@@ -6,6 +6,7 @@ import post from './post';
 import event from './event';
 import ticket from './ticket';
 import venue from './venue';
+import category from './category';
 
 export default combineReducers({
   alert,
@@ -14,5 +15,6 @@ export default combineReducers({
   post,
   event,
   ticket,
-  venue
+  venue,
+  category
 });

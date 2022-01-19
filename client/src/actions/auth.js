@@ -8,8 +8,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  SET_USER_DETAIL
+  SET_USER_DETAIL,
+  USER_UPDATED
 } from './types';
+
 
 // Load User
 export const loadUser = () => async dispatch => {
@@ -28,10 +30,9 @@ export const loadUser = () => async dispatch => {
 };
 
 // Register User
-export const register = formData => async dispatch => {
+export const register = (formData, enqueueSnackbar) => async dispatch => {
   try {
     const res = await api.post('/users', formData);
-
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
@@ -41,22 +42,17 @@ export const register = formData => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => enqueueSnackbar(error.msg, { variant: 'error' }));
     }
-
-    dispatch({
-      type: REGISTER_FAIL
-    });
   }
 };
 
 // Login User
-export const login = (email, password) => async dispatch => {
-  const body = { email, password };
-
+export const login = (user, enqueueSnackbar) => async dispatch => {
   try {
-    const res = await api.post('/auth', body);
-
+    const res = await api.post('/auth', user);
+    console.log('login', res.data);
+    enqueueSnackbar('Login success', { variant: 'success', autoHideDuration: 2000 });
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
@@ -67,12 +63,8 @@ export const login = (email, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => enqueueSnackbar(error.msg, { variant: 'error' }));
     }
-
-    dispatch({
-      type: LOGIN_FAIL
-    });
   }
 };
 
@@ -86,31 +78,36 @@ export const setUser = (user) => dispatch => {
   })
 }
 
-export const saveDetail = (user) => async dispatch => {
-  try {
-    // console.log(user);
-    const res = await api.post('/users/savedetail', user);
-    console.log('saveDetail', res.data);
-    dispatch(setAlert('User details save successfully', 'success'));
-  } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
-    }
+export const saveDetail = (user, enqueueSnackbar) => async dispatch => {
+  console.log(user.avatar);
+  const formData = new FormData();
+  formData.append('avatar', user.avatar);
+  formData.append('firstName', user.firstName);
+  formData.append('lastName', user.lastName);
+  formData.append('email', user.email);
+  formData.append('phone', user.phone);
+  formData.append('role', user.role);
+  const res = await api.post('/users/savedetail', formData);
+  console.log('saveDetail', res.data);
+  if (res.data) {
+    dispatch({
+      type: USER_UPDATED,
+      payload: res.data
+    });
+    enqueueSnackbar('Update Success', { variant: 'success' });
   }
 }
 
-export const resetPassword = (passwords) => async dispatch => {
+export const resetPassword = (passwords, enqueueSnackbar) => async dispatch => {
   try {
     const res = await api.post('/users/resetpassword', passwords);
     console.log('resetPassword', res.data);
-    dispatch(setAlert('Reset password successfully', 'success'));
+    enqueueSnackbar('Reset password Success', { variant: 'success' });
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => enqueueSnackbar(error.msg, { variant: 'error' }));
     }
   }
 }

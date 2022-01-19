@@ -1,31 +1,27 @@
-const mongoose = require('mongoose');
+module.exports = (sequelize, Sequelize) => {
+    const Venue = sequelize.define("venue", {
+        name: {
+            type: Sequelize.STRING
+        },
+        description: {
+            type: Sequelize.STRING
+        },
+        country: {
+            type: Sequelize.STRING
+        },
+        address: {
+            type: Sequelize.STRING
+        },
+        phone: {
+            type: Sequelize.STRING
+        },
+        link: {
+            type: Sequelize.STRING
+        },
+        image: {
+            type: Sequelize.STRING
+        }
+    });
 
-const VenueSchema = new mongoose.Schema({
-
-    name: {
-        type: String,
-        required: true,
-    },
-    country: {
-        type: String,
-        required: true
-    },
-    address: {
-        type: String,
-        require: true
-    },
-    phone: {
-        type: String,
-    },
-    link: {
-        type: String,
-    },
-    image: {
-        type: String,
-    },
-    description:{
-        type:String
-    }
-});
-
-module.exports = mongoose.model('venue', VenueSchema);
+    return Venue;
+};

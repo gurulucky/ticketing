@@ -18,17 +18,17 @@ export const getTickets = (eventId) => async dispatch => {
     }
 }
 
-export const sendOrders = (history, email, attendees) => async dispatch => {
+export const sendOrders = (navigate, email, attendees) => async dispatch => {
     try {
         console.log('attendees', email, attendees);
         const res = await api.post('/tickets/orders', { email, attendees });
-        console.log('orders', res.data.result);        
+        console.log('orders', res.data.result);
         if (res.data.result) {
             dispatch({
                 type: ORDER_SUCCESS,
                 payload: res.data.result
             })
-            history.push('/done');
+            navigate('/done', { replace: true });
         }
     } catch (err) {
         console.log(err.message);

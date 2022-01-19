@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 
-const User = require('../../models/User');
-const Event = require('../../models/Event');
-const Ticket = require('../../models/Ticket');
-const Order = require('../../models/Order');
+const User = require('../../models').User;
+const Event = require('../../models').Event;
+const Ticket = require('../../models').Ticket;
+const Order = require('../../models').Order;
 
 const credentials = {
     service: 'GMail',
@@ -30,7 +30,8 @@ const formatDateTime = (date) => {
 router.get('/', async (req, res) => {
     try {
         let eventId = req.query.eventId;
-        const tickets = await Ticket.find({ eventId });
+        const tickets = await Ticket.findAll({ where: { eventId } });
+        // console.log(tickets);
         res.json(tickets);
     } catch (err) {
         console.log(err.message);
@@ -49,24 +50,31 @@ router.post('/orders', async (req, res) => {
             let index = orders.findIndex(order => order.ticketId === attendee.ticketId);
             if (index >= 0) {
                 orders[index].quantity += 1;
-                orders[index].attendees.push(attendee.firstName + ' ' + attendee.lastName);
+                orders[index].attendees += ',' + attendee.firstName + ' ' + attendee.lastName;
             } else {
-                orders.push({ email, ticketId: attendee.ticketId, quantity: 1, attendees: [attendee.firstName + ' ' + attendee.lastName] });
+                orders.push({ email, ticketId: attendee.ticketId, quantity: 1, attendees: attendee.firstName + ' ' + attendee.lastName });
             }
         });
         // console.log(orders);
-        const result = await Order.insertMany(orders);
-        if (result) {
+        ///////     set sold count per ticket
+        for (let i = 0; i < orders.length; i++) {
+            let sold = (await Ticket.findByPk(orders[i].ticketId))?.sold;
+            sold += orders[i].quantity;
+            await Ticket.update({ sold }, { where: { id: orders[i].ticketId } });
+        }
+
+        const result = await Order.bulkCreate(orders);
+        if (result.length > 0) {
             let mail_html = '<h4>You ordered followings.</h4>';
-            let eventId = (await Ticket.findById(result[0].ticketId))?.eventId;
-            let event = await Event.findById(eventId);
-            mail_html += `<p>Event:<a href='http://crypticks.com.au/event/detail/${event._id}'> ${event.name}</a></p><p> Start:${formatDateTime(event.start)}</p>`;
+            let eventId = (await Ticket.findByPk(result[0].ticketId))?.eventId;
+            let event = await Event.findByPk(eventId);
+            mail_html += `<p>Event:<a href='http://crypticks.com.au/event/detail/${event.id}'> ${event.name}</a></p><p> Start:${formatDateTime(event.start)}</p>`;
             // console.log(mail_html);
-            for (let i = 0; i < result.length; i++) {
+            for (let i = 0; i < orders.length; i++) {
                 // console.log(i, result[i]);
-                let ticket = await Ticket.findById(result[i].ticketId);
-                mail_html += `<p>${i + 1}. ${ticket.name} x ${result[i].quantity}</p>`;
-                mail_html += `<p>Attendees: ${result[i].attendees.join(',')}</p>`
+                let ticket = await Ticket.findByPk(orders[i].ticketId);
+                mail_html += `<p>${i + 1}. ${ticket.name} x ${orders[i].quantity}</p>`;
+                mail_html += `<p>Attendees: ${orders[i].attendees}</p>`
             }
             const emailData = {
                 from: 'guruluckystacker@gmail.com',

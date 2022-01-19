@@ -1,3 +1,4 @@
+import { saveDetail } from '../actions/auth';
 import {
   REGISTER_SUCCESS,
   //REGISTER_FAIL,
@@ -7,7 +8,8 @@ import {
   //LOGIN_FAIL,
   LOGOUT,
   ACCOUNT_DELETED,
-  SET_USER_DETAIL
+  SET_USER_DETAIL,
+  USER_UPDATED
 } from '../actions/types';
 
 const initialState = {
@@ -28,6 +30,11 @@ function authReducer(state = initialState, action) {
         loading: false,
         user: payload
       };
+    case USER_UPDATED:
+      return {
+        ...state,
+        user: { ...state.user, ...payload }
+      }
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       return {
@@ -46,11 +53,11 @@ function authReducer(state = initialState, action) {
         loading: false,
         user: null
       };
-      case SET_USER_DETAIL:
-        return{
-          ...state,
-          user:payload
-        }
+    case SET_USER_DETAIL:
+      return {
+        ...state,
+        user: payload
+      }
     default:
       return state;
   }

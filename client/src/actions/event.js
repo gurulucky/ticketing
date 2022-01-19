@@ -32,6 +32,19 @@ export const getEvents = (searchData) => async dispatch => {
     }
 }
 
+export const getEventsByUser = (searchData) => async dispatch => {
+    try {
+        const res = await api.get('events/byuser', { params: searchData });
+        console.log('byuser', res.data);
+        dispatch({
+            type: GET_EVENTS,
+            payload: res.data
+        })
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
 export const getEvent = (id) => async dispatch => {
     try {
         const res = await api.get('/events', { params: { id } });

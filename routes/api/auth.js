@@ -6,19 +6,17 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
-const User = require('../../models/User');
+const User = require('../../models').User;
 
 // @route    GET api/auth
 // @desc     Get user by token
 // @access   Private
 router.get('/', auth, async (req, res) => {
-  try {
-    // console.log(req.user);
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+  let user = await User.findByPk(req.user.id);
+  if (user) {
+    return res.json(user);
+  } else {
+    return res.status(400).json({ errors: [{ msg: 'user not found' }] });
   }
 });
 
@@ -37,43 +35,37 @@ router.post(
 
     const { email, password } = req.body;
     // console.log(email);
-    try {
-      let user = await User.findOne({ email });
+    let user = await User.findOne({ where: { email } });
 
-      if (!user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Invalid Credentials' }] });
-      }
-
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (!isMatch) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Invalid Credentials' }] });
-      }
-
-      const payload = {
-        user: {
-          id: user.id
-        }
-      };
-
-      jwt.sign(
-        payload,
-        "config_get('jwtSecret')",
-        { expiresIn: '5 days' },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+    if (!user) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Invalid Credentials' }] });
     }
-  }
-);
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Invalid Credentials' }] });
+    }
+
+    const payload = {
+      user: {
+        id: user.id
+      }
+    };
+
+    jwt.sign(
+      payload,
+      "config_get('jwtSecret')",
+      { expiresIn: '5 days' },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
+  });
 
 module.exports = router;
